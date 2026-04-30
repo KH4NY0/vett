@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const GEMINI_ENDPOINT =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent";
+const GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
 
 const SYSTEM_PROMPT = `You are a professional invoice fraud analyst. Analyse the provided invoice and identify signs of potential fraud or billing irregularities.
 
@@ -39,10 +38,10 @@ If the file is not an invoice, return: risk_score 0, risk_level "low", summary "
 
 export async function POST(req: NextRequest) {
   try {
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
-        { error: "Gemini API key not configured on server." },
+        { error: "Groq API key not configured on server." },
         { status: 500 }
       );
     }
@@ -57,40 +56,46 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const geminiRes = await fetch(`${GEMINI_ENDPOINT}?key=${apiKey}`, {
+    const groqRes = await fetch(GROQ_ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`,
+      },
       body: JSON.stringify({
-        contents: [
+        model: "meta-llama/llama-4-scout-17b-16e-instruct",
+        messages: [
           {
-            parts: [
+            role: "user",
+            content: [
               {
-                inline_data: {
-                  mime_type: mimeType,
-                  data: fileData,
+                type: "text",
+                text: SYSTEM_PROMPT,
+              },
+              {
+                type: "image_url",
+                image_url: {
+                  url: `data:${mimeType};base64,${fileData}`,
                 },
               },
-              { text: SYSTEM_PROMPT },
             ],
           },
         ],
-        generationConfig: {
-          temperature: 0.2,
-          maxOutputTokens: 1200,
-        },
+        temperature: 0.2,
+        max_tokens: 1200,
       }),
     });
 
-    const geminiData = await geminiRes.json();
+    const groqData = await groqRes.json();
 
-    if (geminiData.error) {
+    if (groqData.error) {
       return NextResponse.json(
-        { error: geminiData.error.message },
+        { error: groqData.error.message },
         { status: 502 }
       );
     }
 
-    const raw = geminiData.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+    const raw = groqData.choices?.[0]?.message?.content ?? "";
     const clean = raw.replace(/```json|```/g, "").trim();
     const report = JSON.parse(clean);
 

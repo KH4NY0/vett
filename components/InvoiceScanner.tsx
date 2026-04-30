@@ -1,8 +1,11 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
+import * as pdfjsLib from "pdfjs-dist";
 import type { FraudReport, FraudSignal, RiskLevel } from "@/types";
 import styles from "./InvoiceScanner.module.css";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
 const ACCEPTED_TYPES = [
   "image/jpeg",
@@ -107,6 +110,26 @@ export default function InvoiceScanner() {
     setTimeout(() => setProgress(0), 500);
   };
 
+  const convertPdfToImage = async (file: File): Promise<string> => {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    const page = await pdf.getPage(1);
+    const scale = 2;
+    const viewport = page.getViewport({ scale });
+
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    await page.render({
+      canvasContext: context!,
+      viewport,
+    }).promise;
+
+    return canvas.toDataURL("image/jpeg", 0.9);
+  };
+
   const runScan = async () => {
     if (!file || !preview) return;
     setScanning(true);
@@ -122,12 +145,22 @@ export default function InvoiceScanner() {
     }, 2500);
 
     try {
-      const base64 = preview.split(",")[1];
+      let imageBase64: string;
+      let imageMimeType: string;
+
+      if (file.type === "application/pdf") {
+        const imageDataUrl = await convertPdfToImage(file);
+        imageBase64 = imageDataUrl.split(",")[1];
+        imageMimeType = "image/jpeg";
+      } else {
+        imageBase64 = preview.split(",")[1];
+        imageMimeType = file.type;
+      }
 
       const res = await fetch("/api/scan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fileData: base64, mimeType: file.type }),
+        body: JSON.stringify({ fileData: imageBase64, mimeType: imageMimeType }),
       });
 
       const data = await res.json();
@@ -157,7 +190,7 @@ export default function InvoiceScanner() {
 
   return (
     <main className={styles.main}>
-      <span className={styles.badge}>Flagd v1.0 &mdash; Gemini 2.0 Flash</span>
+      <span className={styles.badge}>Flagd v1.0 &mdash; Groq</span>
       <h1 className={styles.title}>Invoice fraud detector</h1>
       <p className={styles.subtitle}>
         Upload any invoice &mdash; image or PDF. The scanner checks for common
