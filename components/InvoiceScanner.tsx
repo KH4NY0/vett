@@ -190,10 +190,14 @@ export default function InvoiceScanner() {
 
   return (
     <main className={styles.main}>
-      <span className={styles.badge}>Flagd v1.0 &mdash; Groq</span>
+      <div className={styles.headerContainer}>
+        <img src="/vett_logo_black.png" alt="Vett Logo" className={styles.logo} />
+        <span className={styles.badge}>Vett v1.0</span>
+      </div>
+      
       <h1 className={styles.title}>Invoice fraud detector</h1>
       <p className={styles.subtitle}>
-        Upload any invoice &mdash; image or PDF. The scanner checks for common
+        Upload any invoice, image or PDF. The scanner checks for common
         billing fraud signals and returns a risk score with a full breakdown of
         what&apos;s suspicious and why.
       </p>
@@ -213,7 +217,7 @@ export default function InvoiceScanner() {
       >
         <span className={styles.dropIcon}>&#8679;</span>
         <p className={styles.dropText}>Drop your invoice here, or click to browse</p>
-        <p className={styles.dropHint}>Supports JPG, PNG, WEBP, PDF &mdash; max 20MB</p>
+        <p className={styles.dropHint}>Supports JPG, PNG, WEBP, PDF: max 20MB</p>
         {file && <p className={styles.fileName}>{file.name}</p>}
         {preview && !isPDF && (
           // eslint-disable-next-line @next/next/no-img-element
@@ -284,7 +288,7 @@ export default function InvoiceScanner() {
           )}
 
           <p className={styles.footerNote}>
-            This tool assists human review &mdash; always verify directly with
+            This tool assists human review, always verify directly with
             the issuing company before making or declining payment. Not legal or
             financial advice.
           </p>

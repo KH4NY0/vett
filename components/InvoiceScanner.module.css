@@ -4,6 +4,20 @@
   padding: 3rem 1.25rem 5rem;
 }
 
+/* ── Logo ── */
+.logo {
+  width: 120px;
+  height: auto;
+  display: block;
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
 /* ── Header ── */
 .badge {
   display: inline-block;
