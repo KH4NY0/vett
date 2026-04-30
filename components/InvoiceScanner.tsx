@@ -1,11 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import * as pdfjsLib from "pdfjs-dist";
 import type { FraudReport, FraudSignal, RiskLevel } from "@/types";
 import styles from "./InvoiceScanner.module.css";
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
 const ACCEPTED_TYPES = [
   "image/jpeg",
@@ -112,6 +109,13 @@ export default function InvoiceScanner() {
   };
 
   const convertPdfToImage = async (file: File): Promise<string> => {
+    const pdfjsLib = await import("pdfjs-dist");
+    
+    // Configure worker only in browser environment
+    if (typeof window !== "undefined") {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
+    }
+    
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
     const page = await pdf.getPage(1);
