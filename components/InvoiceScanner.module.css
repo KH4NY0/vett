@@ -1,0 +1,395 @@
+.main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 5rem;
+}
+
+/* ── Header ── */
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  border: 0.5px solid var(--border-md);
+  border-radius: 4px;
+  padding: 3px 8px;
+  margin-bottom: 14px;
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 520px;
+}
+
+/* ── Drop zone ── */
+.dropZone {
+  border: 1.5px dashed var(--border-md);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  background: var(--surface-2);
+  transition: border-color 0.2s, background 0.2s;
+  outline: none;
+}
+
+.dropZone:hover,
+.dropZone:focus-visible {
+  border-color: var(--text-3);
+}
+
+.dragging {
+  border-color: var(--red-accent) !important;
+  background: rgba(226, 75, 74, 0.05) !important;
+}
+
+.hasFile {
+  border-style: solid;
+  border-color: var(--border-md);
+}
+
+.dropIcon {
+  font-size: 30px;
+  margin-bottom: 12px;
+  color: var(--text-3);
+  display: block;
+}
+
+.dropText {
+  font-size: 14px;
+  color: var(--text-2);
+  margin-bottom: 4px;
+  font-family: var(--font-sans);
+}
+
+.dropHint {
+  font-size: 12px;
+  color: var(--text-3);
+  font-family: var(--font-sans);
+}
+
+.fileName {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 500;
+  margin-top: 12px;
+}
+
+.preview {
+  max-width: 100%;
+  max-height: 140px;
+  border-radius: var(--radius-md);
+  margin-top: 14px;
+  object-fit: contain;
+}
+
+/* ── Scan button ── */
+.scanBtn {
+  width: 100%;
+  margin-top: 14px;
+  padding: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.scanBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.scanBtn:not(:disabled):hover {
+  opacity: 0.85;
+}
+
+.scanBtn:not(:disabled):active {
+  transform: scale(0.99);
+}
+
+/* ── Progress ── */
+.progressWrap {
+  height: 2px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: var(--text);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+/* ── Error ── */
+.errorBox {
+  background: rgba(226, 75, 74, 0.08);
+  border: 0.5px solid rgba(226, 75, 74, 0.35);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--red-border);
+  margin-top: 12px;
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+/* ── Divider ── */
+.divider {
+  border: none;
+  border-top: 0.5px solid var(--border);
+  margin: 1.5rem 0;
+}
+
+/* ── Result ── */
+.result {
+  margin-top: 2rem;
+}
+
+.resultHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 1.5rem;
+}
+
+/* Score circle */
+.scoreCircle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 2px solid;
+}
+
+.scoreCircle.low {
+  border-color: var(--green-border);
+  background: var(--green-bg);
+  color: var(--green-text);
+}
+
+.scoreCircle.medium {
+  border-color: var(--amber-border);
+  background: var(--amber-bg);
+  color: var(--amber-text);
+}
+
+.scoreCircle.high {
+  border-color: var(--red-border);
+  background: var(--red-bg);
+  color: var(--red-text);
+}
+
+.scoreNum {
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.scoreSub {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 3px;
+  opacity: 0.7;
+}
+
+.scoreInfo {
+  flex: 1;
+}
+
+/* Risk tag */
+.riskTag {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.riskTag.low {
+  background: var(--green-bg);
+  color: var(--green-text);
+}
+
+.riskTag.medium {
+  background: var(--amber-bg);
+  color: var(--amber-text);
+}
+
+.riskTag.high {
+  background: var(--red-bg);
+  color: var(--red-text);
+}
+
+.summaryText {
+  font-size: 14px;
+  font-family: var(--font-sans);
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+/* ── Section label ── */
+.sectionLabel {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+/* ── Signal cards ── */
+.signalCard {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border-left: 3px solid;
+}
+
+.signalCard.high {
+  border-left-color: var(--red-accent);
+}
+
+.signalCard.medium {
+  border-left-color: var(--amber-accent);
+}
+
+.signalCard.low {
+  border-left-color: var(--green-accent);
+}
+
+.signalName {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.signalDetail {
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.55;
+  font-family: var(--font-sans);
+}
+
+.severityPip {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.severityPip.high {
+  background: var(--red-bg);
+  color: var(--red-border);
+}
+
+.severityPip.medium {
+  background: var(--amber-bg);
+  color: var(--amber-border);
+}
+
+.severityPip.low {
+  background: var(--green-bg);
+  color: var(--green-border);
+}
+
+/* ── Safe list ── */
+.safeList {
+  list-style: none;
+}
+
+.safeList li {
+  font-size: 13px;
+  color: var(--text-2);
+  padding: 7px 0;
+  border-bottom: 0.5px solid var(--border);
+  font-family: var(--font-sans);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.5;
+}
+
+.safeList li:last-child {
+  border-bottom: none;
+}
+
+.checkIcon {
+  color: var(--green-accent);
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Footer ── */
+.footerNote {
+  font-size: 11px;
+  color: var(--text-3);
+  text-align: center;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .title {
+    font-size: 22px;
+  }
+
+  .resultHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+}
+
+.pdfBadge {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  color: var(--text-2);
+  background: var(--surface);
+  border: 0.5px solid var(--border-md);
+  border-radius: var(--radius-md);
+  padding: 6px 14px;
+  letter-spacing: 0.02em;
+}
