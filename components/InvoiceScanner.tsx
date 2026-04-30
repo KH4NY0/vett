@@ -123,7 +123,7 @@ export default function InvoiceScanner() {
     canvas.width = viewport.width;
 
     await page.render({
-      canvasContext: context!,
+      canvas,
       viewport,
     }).promise;
 
@@ -231,6 +231,7 @@ export default function InvoiceScanner() {
         type="file"
         accept="image/jpeg,image/png,image/webp,image/gif,application/pdf"
         style={{ display: "none" }}
+        aria-label="Upload invoice file"
         onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
       />
 
