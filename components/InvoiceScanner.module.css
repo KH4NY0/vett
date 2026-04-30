@@ -155,7 +155,7 @@
   background: var(--text);
   border-radius: 2px;
   transition: width 0.4s ease;
-  width: var(--progress-width, 0%);
+  width: 0%;
 }
 
 .hiddenInput {

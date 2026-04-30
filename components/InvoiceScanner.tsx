@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import * as pdfjsLib from "pdfjs-dist";
 import type { FraudReport, FraudSignal, RiskLevel } from "@/types";
 import styles from "./InvoiceScanner.module.css";
@@ -70,6 +70,7 @@ export default function InvoiceScanner() {
   const resultRef = useRef<HTMLDivElement>(null);
   const tickerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
   const handleFile = useCallback((f: File) => {
     if (!ACCEPTED_TYPES.includes(f.type)) {
@@ -188,6 +189,12 @@ export default function InvoiceScanner() {
       )
     : [];
 
+  useEffect(() => {
+    if (progressBarRef.current) {
+      progressBarRef.current.style.width = `${progress}%`;
+    }
+  }, [progress]);
+
   return (
     <main className={styles.main}>
       <div className={styles.headerContainer}>
@@ -230,9 +237,9 @@ export default function InvoiceScanner() {
         ref={fileInputRef}
         type="file"
         accept="image/jpeg,image/png,image/webp,image/gif,application/pdf"
-        style={{ display: "none" }}
-        aria-label="Upload invoice file"
+        className={styles.hiddenInput}
         onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
+        aria-label="Upload invoice file"
       />
 
       <button
@@ -245,7 +252,10 @@ export default function InvoiceScanner() {
 
       {progress > 0 && (
         <div className={styles.progressWrap}>
-          <div className={styles.progressBar} style={{ width: `${progress}%` }} />
+          <div
+            ref={progressBarRef}
+            className={styles.progressBar}
+          />
         </div>
       )}
 
