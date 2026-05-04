@@ -1,4 +1,4 @@
-# Flagd — Invoice Fraud Detector
+# Vett: Invoice Fraud Detector
 
 AI-powered invoice fraud scanner built with Next.js and Groq.
 Upload any invoice image and get a risk score with a full breakdown of suspicious signals.
