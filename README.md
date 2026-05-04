@@ -8,7 +8,7 @@ Upload any invoice image and get a risk score with a full breakdown of suspiciou
 - **Next.js 15** (App Router)
 - **TypeScript**
 - **Groq** via Groq Cloud
-- **CSS Modules** — no UI library, no Tailwind
+- **CSS Modules**: no UI library, no Tailwind
 
 ## Getting started
 
